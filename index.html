@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jason Navarro — Portfolio</title>
+  <meta name="description" content="Jason T. Navarro — Aspiring Software Engineer at San José State University. Java, Python, C++, HTML. Projects, experience, education, and contact." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1220;           /* background */
+      --bg-soft:#0f172a;      /* section bg */
+      --card:#111827;         /* cards */
+      --text:#e5e7eb;         /* primary text */
+      --muted:#9ca3af;        /* secondary text */
+      --accent:#60a5fa;       /* blue */
+      --accent-2:#22d3ee;     /* cyan */
+      --ring:#1f2937;         /* outlines */
+      --pill:#0b3c5d;         /* skill pills */
+      --ok:#34d399;           /* success */
+      --warn:#f59e0b;         /* warning */
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; scroll-behavior: smooth; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+    /* Header */
+    header { position: sticky; top: 0; backdrop-filter: saturate(180%) blur(8px); background: rgba(11,18,32,0.7); border-bottom: 1px solid var(--ring); z-index: 50; }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { font-weight: 800; letter-spacing: 0.3px; font-size: 1.05rem; display: inline-flex; align-items: center; gap:.5rem; }
+    .brand .dot { width: 8px; height: 8px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); border-radius: 999px; box-shadow: 0 0 0 3px rgba(96,165,250,.25); }
+    nav ul { list-style: none; display: flex; gap: 1rem; padding: 0; margin: 0; }
+    nav a { color: var(--text); opacity: 0.9; font-weight: 500; padding: .4rem .6rem; border-radius: 8px; }
+    nav a.active, nav a:hover { background: #0e1930; opacity: 1; }
+    .menu-btn { display:none; background:transparent; color:var(--text); border:1px solid var(--ring); padding:.45rem .6rem; border-radius:10px; }
+
+    /* Hero */
+    .hero { display:grid; grid-template-columns: 1.3fr 1fr; gap: 2rem; align-items: center; padding: 72px 0 32px; }
+    .hero h1 { font-size: clamp(1.8rem, 2.5vw + 1rem, 3rem); margin: .25rem 0 .75rem; line-height: 1.1; }
+    .eyebrow { text-transform: uppercase; letter-spacing: .2em; font-size: .8rem; color: var(--muted); }
+    .subtitle { color: var(--muted); font-size: 1.05rem; }
+    .actions { display:flex; flex-wrap: wrap; gap:.75rem; margin-top: 1.25rem; }
+    .btn { display:inline-flex; align-items:center; gap:.5rem; padding:.75rem 1rem; border-radius: 12px; font-weight: 600; border:1px solid var(--ring); background:#0e1930; color:var(--text); text-decoration:none; }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), var(--accent-2)); color:#071226; border-color: transparent; }
+    .btn:hover{ filter: brightness(1.08); text-decoration:none; }
+    .hero-card { background: radial-gradient(1000px 400px at 20% -10%, rgba(96,165,250,.15), transparent 50%), var(--card); padding: 1.25rem; border:1px solid var(--ring); border-radius: 18px; }
+    .hero-card .row { display:flex; justify-content: space-between; gap: .5rem; color: var(--muted); font-size:.9rem; }
+
+    /* Sections */
+    section { padding: 56px 0; border-top: 1px solid var(--ring); }
+    h2 { font-size: clamp(1.25rem, 1.2vw + 1rem, 2rem); margin: 0 0 18px; }
+    .lead { color: var(--muted); max-width: 72ch; }
+    .grid { display:grid; gap: 1rem; }
+
+    /* About */
+    .about { grid-template-columns: 1fr 1fr; }
+    .about .card { background: var(--card); border:1px solid var(--ring); border-radius: 16px; padding: 1rem; }
+
+    /* Skills */
+    .pills { display:flex; flex-wrap: wrap; gap: .5rem; }
+    .pill { background: linear-gradient(180deg, #0f2540, var(--pill)); color:#cfe9ff; border:1px solid #153a5e; padding:.45rem .65rem; border-radius:999px; font-size:.9rem; font-weight:600; }
+
+    /* Experience */
+    .timeline { position: relative; padding-left: 18px; }
+    .timeline::before { content:""; position:absolute; left:6px; top:2px; bottom:2px; width:2px; background:linear-gradient(var(--accent), var(--accent-2)); opacity:.5; }
+    .entry { position:relative; padding: .5rem 0 .5rem 1rem; }
+    .entry::before { content:""; position:absolute; left:-2px; top:.95rem; width:10px; height:10px; border-radius:999px; background: var(--accent); box-shadow:0 0 0 3px rgba(96,165,250,.2); }
+    .entry h3 { margin:.1rem 0 .15rem; font-size:1.05rem; }
+    .meta { color: var(--muted); font-size: .9rem; }
+    .bullets { margin:.35rem 0 .5rem 1rem; }
+
+    /* Projects */
+    .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+    .card { background: var(--card); border:1px solid var(--ring); border-radius: 16px; padding: 1rem; }
+    .card h3 { margin-top:.5rem; }
+
+    /* Education */
+    .edu { display:grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    /* Contact */
+    .contact { display:grid; grid-template-columns: 1.2fr 1fr; gap: 1rem; }
+    .contact .card label { display:block; font-size:.9rem; color:var(--muted); margin:.25rem 0 .25rem; }
+    .contact .card input, .contact .card textarea { width:100%; background:#0a1428; border:1px solid var(--ring); border-radius: 12px; padding:.7rem .85rem; color:var(--text); }
+    .contact .card textarea { min-height: 120px; resize: vertical; }
+
+    footer { text-align:center; color:var(--muted); padding: 40px 0 60px; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .about, .contact, .edu { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 720px){
+      nav ul { display:none; }
+      .menu-btn { display:inline-flex; }
+      nav ul.open { display:flex; position:absolute; right:20px; top:64px; flex-direction:column; background: #0e1930; border:1px solid var(--ring); padding:.5rem; border-radius:12px; width: min(260px, calc(100vw - 40px)); }
+      nav ul.open a { padding:.7rem .8rem; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#home" aria-label="Go to homepage">
+        <span class="dot" aria-hidden="true"></span>
+        <span>Jason Navarro</span>
+      </a>
+      <nav aria-label="Primary">
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navMenu">Menu</button>
+        <ul id="navMenu">
+          <li><a href="#home" class="active">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="home" class="container">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div>
+        <div class="eyebrow">Hello, I’m</div>
+        <h1 id="hero-title">Jason T. Navarro</h1>
+        <p class="subtitle">Aspiring Software Engineer • B.S. Software Engineering @ San José State University (’27)</p>
+        <div class="actions">
+          <a class="btn primary" href="#projects">View Projects</a>
+          <a class="btn" href="mailto:jt.navarro199@gmail.com" aria-label="Email Jason">
+            <!-- Mail icon -->
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2Zm0 0 8 7 8-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Email Me
+          </a>
+          <a class="btn" href="#resume" onclick="alert('Add your resume PDF to this repo and update the link!'); return false;">Download Résumé</a>
+        </div>
+      </div>
+      <aside class="hero-card" aria-label="Quick facts">
+        <div class="row"><span>Location</span><strong>Gilroy, CA</strong></div>
+        <div class="row"><span>Focus</span><strong>Java • Python • C++</strong></div>
+        <div class="row"><span>Open to</span><strong>Internships & Projects</strong></div>
+      </aside>
+    </section>
+
+    <!-- About -->
+    <section id="about" aria-labelledby="about-title">
+      <h2 id="about-title">About Me</h2>
+      <div class="grid about">
+        <div class="card">
+          <p class="lead">I’m a software engineering student at San José State University pursuing a B.S. in Software Engineering. I have experience in customer-facing roles and team leadership, and I’m building strong foundations in programming, data structures, and the software development life cycle.</p>
+          <p>Currently, I’m enhancing my development skills through an Amazon Junior Software Developer Professional Certificate (in progress), with hands-on work in full‑stack Java web development using Spring Boot and SQL, and fundamentals of responsive design.</p>
+        </div>
+        <div class="card">
+          <ul class="bullets">
+            <li>Strong communicator with leadership experience and a collaborative mindset.</li>
+            <li>Comfortable with Git/GitHub workflows and writing clean, readable code.</li>
+            <li>Fluent in English; proficient in Spanish.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills" aria-labelledby="skills-title">
+      <h2 id="skills-title">Skills</h2>
+      <div class="pills" role="list" aria-label="Skill list">
+        <span class="pill" role="listitem">Java</span>
+        <span class="pill" role="listitem">Python</span>
+        <span class="pill" role="listitem">C++</span>
+        <span class="pill" role="listitem">HTML</span>
+        <span class="pill" role="listitem">XML</span>
+        <span class="pill" role="listitem">Excel</span>
+        <span class="pill" role="listitem">Git</span>
+        <span class="pill" role="listitem">GitHub</span>
+        <span class="pill" role="listitem">SDLC</span>
+        <span class="pill" role="listitem">Communication</span>
+        <span class="pill" role="listitem">Collaboration</span>
+        <span class="pill" role="listitem">Critical Thinking</span>
+        <span class="pill" role="listitem">Adaptability</span>
+      </div>
+    </section>
+
+    <!-- Experience -->
+    <section id="experience" aria-labelledby="exp-title">
+      <h2 id="exp-title">Experience</h2>
+      <div class="timeline">
+        <article class="entry">
+          <h3>Customer Service Associate <span class="meta">— Home Depot, Gilroy, CA</span></h3>
+          <div class="meta">May 2025 – Present</div>
+          <ul class="bullets">
+            <li>Provide fast, accurate checkout service and assist customers with product questions and returns.</li>
+            <li>Coordinate with inventory staff to locate out‑of‑stock or high‑demand items.</li>
+            <li>Support front‑end operations by resolving POS issues and maintaining stock awareness.</li>
+          </ul>
+        </article>
+        <article class="entry">
+          <h3>Starter & Cart Barn Attendant & Grounds Keeper <span class="meta">— Eagle Ridge Golf Course, Gilroy, CA</span></h3>
+          <div class="meta">Jun 2023 – Jan 2025</div>
+          <ul class="bullets">
+            <li>Managed cart operations and supported Pro Shop staff for 50+ daily players.</li>
+            <li>Maintained range equipment and coordinated tee time logistics.</li>
+            <li>Ensured smooth daily operation of carts, balls, and facilities during peak hours.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Education & Certification -->
+    <section id="education" aria-labelledby="edu-title">
+      <h2 id="edu-title">Education & Certification</h2>
+      <div class="edu">
+        <div class="card">
+          <h3>B.S. in Software Engineering</h3>
+          <div class="meta">San José State University — Expected May 2027</div>
+          <p class="lead">Relevant courses: Calculus I–III, Physics I–II, CS 146, CS 46 A & B</p>
+        </div>
+        <div class="card">
+          <h3>Amazon Junior Software Developer Professional Certificate</h3>
+          <div class="meta">In Progress — Expected Fall 2025</div>
+          <ul class="bullets">
+            <li>Full‑stack Java web development with Spring Boot and SQL</li>
+            <li>Object‑oriented programming and SDLC</li>
+            <li>Responsive web design and practical deployment fundamentals</li>
+          </ul>
+        </div>
+      </div>
+      <div class="card" style="margin-top:1rem;">
+        <h3>Christopher High School — Diploma</h3>
+        <div class="meta">Gilroy, CA — June 2023 • Honors: Principal’s List (2021), Honor Roll (2019–2020, 2022)</div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects" aria-labelledby="proj-title">
+      <h2 id="proj-title">Projects</h2>
+      <p class="lead">I’m actively building out my project portfolio. Here are a few spots reserved for upcoming work—check back soon!</p>
+      <div class="cards">
+        <article class="card">
+          <div class="eyebrow">Coming Soon</div>
+          <h3>Data Structures Mini‑Library (Java)</h3>
+          <p>Implementing classic structures (lists, stacks, queues, trees) with tests and documentation.</p>
+        </article>
+        <article class="card">
+          <div class="eyebrow">Coming Soon</div>
+          <h3>Spring Boot Task Tracker</h3>
+          <p>Full‑stack CRUD app with REST API, JDBC/SQL, and responsive UI.</p>
+        </article>
+        <article class="card">
+          <div class="eyebrow">Coursework</div>
+          <h3>CS 146 &amp; CS 46 A/B Exercises</h3>
+          <p>Algorithmic problem‑solving in Java; emphasis on clarity, correctness, and Big‑O reasoning.</p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" aria-labelledby="contact-title" class="contact">
+      <div>
+        <h2 id="contact-title">Contact</h2>
+        <p class="lead">Open to internships, entry‑level roles, and collaborative projects. The fastest way to reach me is email.</p>
+        <div class="card" style="display:flex; gap:1rem; align-items:center;">
+          <a class="btn primary" href="mailto:jt.navarro199@gmail.com">Email: jt.navarro199@gmail.com</a>
+          <a class="btn" href="tel:+16694001300">Call: (669) 400‑1300</a>
+        </div>
+      </div>
+      <form class="card" onsubmit="sendMail(event)" aria-label="Quick contact form">
+        <label for="name">Name</label>
+        <input id="name" name="name" placeholder="Your name" required>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" placeholder="you@example.com" required>
+        <label for="message">Message</label>
+        <textarea id="message" name="message" placeholder="Hi Jason, I’d like to connect about…" required></textarea>
+        <div class="actions">
+          <button class="btn primary" type="submit">Send</button>
+        </div>
+        <p id="formStatus" class="meta" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Jason Navarro. All rights reserved.
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuBtn = document.getElementById('menuBtn');
+    const navMenu = document.getElementById('navMenu');
+    menuBtn?.addEventListener('click', () => {
+      const open = navMenu.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+
+    // Active link highlight on scroll
+    const links = [...document.querySelectorAll('nav a')];
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        const id = '#' + entry.target.id;
+        const link = links.find(a=>a.getAttribute('href')===id);
+        if(link) link.classList.toggle('active', entry.isIntersecting);
+      });
+    }, { rootMargin: '-50% 0px -45% 0px', threshold: 0 });
+    sections.forEach(sec=>observer.observe(sec));
+
+    // Year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple mailto from contact form
+    function sendMail(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const subject = encodeURIComponent(`Portfolio contact from ${name}`);
+      const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+      const href = `mailto:jt.navarro199@gmail.com?subject=${subject}&body=${body}`;
+      document.getElementById('formStatus').textContent = 'Opening your email client…';
+      window.location.href = href;
+    }
+  </script>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Jason T. Navarro",
+    "email": "mailto:jt.navarro199@gmail.com",
+    "telephone": "+1-669-400-1300",
+    "jobTitle": "Aspiring Software Engineer",
+    "url": "https://" ,
+    "alumniOf": {
+      "@type": "CollegeOrUniversity",
+      "name": "San José State University"
+    },
+    "knowsAbout": ["Java","Python","C++","HTML","Git","GitHub","SDLC"],
+    "address": {"@type":"PostalAddress","addressLocality":"Gilroy","addressRegion":"CA","addressCountry":"US"}
+  }
+  </script>
+</body>
+</html>
