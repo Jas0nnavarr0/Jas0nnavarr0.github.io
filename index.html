@@ -1,10 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Jason T. Navarro</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="css/style.css" />
+<meta charset="UTF-8">
+<title>Jason T. Navarro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+:root{
+  --bg:#0f1116;
+  --nav:#121826;
+  --card:#1a2030;
+  --border:#2a3145;
+  --text:#e6e8ee;
+  --muted:#aab0c0;
+  --accent:#d1d5db;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:Inter,system-ui,sans-serif;
+  background:linear-gradient(#0f1116,#0b1020);
+  color:var(--text);
+}
+a{color:var(--accent);text-decoration:none}
+.container{max-width:1100px;margin:auto;padding:0 20px}
+
+/* NAV */
+header{
+  position:sticky;top:0;z-index:100;
+  background:var(--nav);
+  border-bottom:1px solid var(--border);
+}
+.nav{
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.brand{font-weight:700;font-size:1.1rem}
+nav a{
+  margin-left:1rem;
+  padding:.4rem .6rem;
+  border-radius:8px;
+}
+nav a.active,nav a:hover{background:var(--card)}
+
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-align:center;
+}
+.eyebrow{letter-spacing:.2em;font-size:.75rem;color:var(--muted)}
+.hero h1{font-size:clamp(2.5rem,6vw,4rem);margin:.3rem 0}
+.subtitle{color:var(--muted)}
+.hero-buttons{margin-top:1.5rem}
+.btn{
+  padding:.7rem 1rem;
+  border-radius:10px;
+  border:1px solid var(--border);
+  margin:.3rem;
+  display:inline-block;
+}
+.btn.primary{
+  background:var(--accent);
+  color:#0f1116;
+  border:none;
+}
+
+/* SECTIONS */
+.section{padding:80px 0}
+h2{margin-bottom:1rem}
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:1rem;
+}
+.meta,.muted{color:var(--muted)}
+.tags{margin-top:.75rem}
+.tags span{
+  display:inline-block;
+  background:#22283a;
+  border:1px solid var(--border);
+  padding:.35rem .6rem;
+  border-radius:999px;
+  margin:.25rem;
+  font-size:.85rem;
+}
+
+/* TIMELINE */
+.timeline{border-left:2px solid var(--border);padding-left:1.5rem}
+.timeline-item{position:relative;margin-bottom:1.5rem}
+.timeline-item .dot{
+  position:absolute;
+  left:-10px;
+  top:1.2rem;
+  width:10px;height:10px;
+  background:var(--accent);
+  border-radius:50%;
+}
+
+/* PROJECTS */
+.project-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1rem;
+}
+
+footer{
+  text-align:center;
+  padding:40px 0;
+  color:var(--muted);
+}
+</style>
 </head>
 
 <body>
@@ -22,110 +133,87 @@
   </div>
 </header>
 
-<!-- HERO -->
 <section id="home" class="hero">
   <p class="eyebrow">HELLO, I’M</p>
   <h1>Jason T. Navarro</h1>
   <p class="subtitle">Aspiring Software Engineer • Software Engineering @ SJSU</p>
-
   <div class="hero-buttons">
     <a href="#projects" class="btn primary">View Projects</a>
     <a href="#contact" class="btn">Contact Me</a>
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about" class="section container">
   <h2>About Me</h2>
   <div class="card">
     <p>
       I’m a Software Engineering student at San José State University pursuing a B.S. in Software Engineering.
-      I enjoy building user-focused applications and working on full-stack projects using Java, Python,
-      JavaScript, and modern frameworks.
+      I enjoy building user-focused applications and full-stack systems using Java, Python, and JavaScript.
     </p>
     <p>
-      I’m currently seeking internship opportunities where I can grow as an engineer, contribute to real-world
-      projects, and collaborate with strong technical teams.
+      I’m currently seeking internship opportunities where I can grow as an engineer and contribute to
+      real-world software projects.
     </p>
-
     <div class="tags">
-      <span>Java</span>
-      <span>Python</span>
-      <span>JavaScript</span>
-      <span>HTML/CSS</span>
-      <span>Spring Boot</span>
-      <span>MySQL</span>
+      <span>Java</span><span>Python</span><span>JavaScript</span>
+      <span>HTML/CSS</span><span>Spring Boot</span><span>MySQL</span>
     </div>
   </div>
 </section>
 
-<!-- EDUCATION -->
 <section id="education" class="section container">
   <h2>Education</h2>
-
   <div class="timeline">
     <div class="timeline-item">
       <div class="dot"></div>
       <div class="card">
         <h3>B.S. in Software Engineering</h3>
         <p class="meta">San José State University — Expected May 2027</p>
-        <p class="muted">
-          Relevant Coursework: Discrete Math, Calculus I–III, Physics I–II, CS 146, CS 46A/B
-        </p>
+        <p class="muted">Discrete Math, Calculus I–III, Physics I–II, CS 146, CS 46A/B</p>
       </div>
     </div>
-
     <div class="timeline-item">
       <div class="dot"></div>
       <div class="card">
         <h3>Amazon Junior Software Developer Certificate</h3>
-        <p class="meta">Issued Fall 2025</p>
-        <p class="muted">
-          Full-stack Java development, SDLC, OOP, responsive web applications.
-        </p>
+        <p class="meta">Fall 2025</p>
+        <p class="muted">Full-stack Java development, OOP, SDLC, responsive web apps</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- PROJECTS -->
 <section id="projects" class="section container">
   <h2>Projects</h2>
-
   <div class="project-grid">
     <div class="card">
       <h3>Portfolio Website</h3>
       <p>Personal website showcasing projects, experience, and contact information.</p>
       <div class="tags"><span>HTML</span><span>CSS</span><span>JavaScript</span></div>
     </div>
-
     <div class="card">
       <h3>Movie Recommendation Generator</h3>
       <p>Interactive web app recommending movies by user-selected genre.</p>
       <div class="tags"><span>JavaScript</span><span>HTML</span><span>CSS</span></div>
     </div>
-
     <div class="card">
       <h3>Lost & Found Tracker</h3>
-      <p>Full-stack campus system with authentication, REST APIs, and MySQL.</p>
+      <p>Full-stack system with authentication, REST APIs, and MySQL.</p>
       <div class="tags"><span>Java</span><span>Spring Boot</span><span>MySQL</span></div>
     </div>
-
     <div class="card">
       <h3>Movie Rental Database</h3>
-      <p>React + Vite frontend with Spring Boot backend and MySQL database.</p>
+      <p>React + Vite frontend with Spring Boot backend.</p>
       <div class="tags"><span>React</span><span>Java</span><span>MySQL</span></div>
     </div>
-
     <div class="card">
       <h3>Autonomous Small Robot</h3>
-      <p>Sensor-based robot programmed in C with motion and collision logic.</p>
+      <p>Sensor-driven robot with motion and collision logic.</p>
       <div class="tags"><span>C</span><span>VEX Cortex</span></div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
 <section id="contact" class="section container">
   <h2>Contact</h2>
   <div class="card">
@@ -139,6 +227,20 @@
   © <span id="year"></span> Jason T. Navarro
 </footer>
 
-<script src="js/main.js"></script>
+<script>
+document.getElementById("year").textContent=new Date().getFullYear();
+const links=document.querySelectorAll("nav a");
+const sections=[...links].map(l=>document.querySelector(l.getAttribute("href")));
+window.addEventListener("scroll",()=>{
+  let current="";
+  sections.forEach(s=>{
+    if(s.getBoundingClientRect().top<=80) current=s.id;
+  });
+  links.forEach(l=>{
+    l.classList.toggle("active",l.getAttribute("href")==="#"+current);
+  });
+});
+</script>
+
 </body>
 </html>
