@@ -2,45 +2,81 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Jason T. Navarro | Software Engineering Portfolio</title>
+  <title>Jason T. Navarro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 
 <body>
+
 <header>
-  <div class="container nav">
+  <div class="nav container">
     <div class="brand">Jason Navarro</div>
     <nav>
-      <ul>
-        <li><a class="active" href="index.html">Home</a></li>
-        <li><a href="projects.html">Projects</a></li>
-        <li><a href="experience.html">Experience</a></li>
-        <li><a href="education.html">Education</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
+      <a href="#home" class="active">Home</a>
+      <a href="#about">About</a>
+      <a href="#education">Education</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
     </nav>
   </div>
 </header>
 
-<main class="container hero">
+<!-- HERO -->
+<section id="home" class="hero">
+  <p class="eyebrow">HELLO, I’M</p>
   <h1>Jason T. Navarro</h1>
-  <p class="subtitle">B.S. Software Engineering @ San José State University</p>
-  <p class="lead">
-    Aspiring software engineer with experience in full-stack development, Java, and collaborative team projects.
-  </p>
+  <p class="subtitle">Aspiring Software Engineer • Software Engineering @ SJSU</p>
 
-  <div class="actions">
-    <a class="btn primary" href="projects.html">View Projects</a>
-    <a class="btn" href="mailto:jt.navarro199@gmail.com">Email Me</a>
-    <a class="btn" href="https://github.com/YOUR_USERNAME" target="_blank">GitHub</a>
+  <div class="hero-buttons">
+    <a href="#projects" class="btn primary">View Projects</a>
+    <a href="#contact" class="btn">Contact Me</a>
   </div>
-</main>
+</section>
 
-<footer>
-  © <span id="year"></span> Jason Navarro
-</footer>
+<!-- ABOUT -->
+<section id="about" class="section container">
+  <h2>About Me</h2>
+  <div class="card">
+    <p>
+      I’m a Software Engineering student at San José State University pursuing a B.S. in Software Engineering.
+      I enjoy building user-focused applications and working on full-stack projects using Java, Python,
+      JavaScript, and modern frameworks.
+    </p>
+    <p>
+      I’m currently seeking internship opportunities where I can grow as an engineer, contribute to real-world
+      projects, and collaborate with strong technical teams.
+    </p>
 
-<script src="js/main.js"></script>
-</body>
-</html>
+    <div class="tags">
+      <span>Java</span>
+      <span>Python</span>
+      <span>JavaScript</span>
+      <span>HTML/CSS</span>
+      <span>Spring Boot</span>
+      <span>MySQL</span>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education" class="section container">
+  <h2>Education</h2>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="dot"></div>
+      <div class="card">
+        <h3>B.S. in Software Engineering</h3>
+        <p class="meta">San José State University — Expected May 2027</p>
+        <p class="muted">
+          Relevant Coursework: Discrete Math, Calculus I–III, Physics I–II, CS 146, CS 46A/B
+        </p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="dot"></div>
+      <div class="card">
+        <h3>Amazon Junior Software Developer Certificate</h3>
+        <p class="meta">Issued Fall 2025
