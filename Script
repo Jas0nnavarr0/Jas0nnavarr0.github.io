@@ -1,0 +1,70 @@
+// ============================================
+// Renders the data from data.js into the page,
+// and handles small interactive behaviors.
+// You shouldn't need to edit this file to change content —
+// edit data.js instead.
+// ============================================
+
+function renderProjects() {
+  const wrap = document.getElementById("project-ledger");
+  wrap.innerHTML = PROJECTS.map(p => `
+    <div class="ledger-item">
+      <div class="ledger-left">
+        <h3>${p.title}</h3>
+        <p class="ledger-meta">${p.meta}</p>
+      </div>
+      <div class="ledger-right">
+        <p class="problem"><span class="label">PROBLEM</span>${p.problem}</p>
+        <p>${p.detail}</p>
+        <div class="stack">
+          ${p.stack.map(s => `<span>${s}</span>`).join("")}
+        </div>
+        ${p.link ? `<div class="links"><a href="${p.link.url}" target="_blank" rel="noopener">${p.link.label} &rarr;</a></div>` : ""}
+      </div>
+    </div>
+  `).join("");
+}
+
+function renderTimeline(containerId, items) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = items.map(item => `
+    <div class="timeline-item">
+      <div class="timeline-left">
+        <h3>${item.title}</h3>
+        <p class="ledger-meta">${item.org}</p>
+        <p class="timeline-meta">${item.dates}</p>
+      </div>
+      <div class="timeline-right">
+        <ul>
+          ${item.points.map(pt => `<li>${pt}</li>`).join("")}
+        </ul>
+      </div>
+    </div>
+  `).join("");
+}
+
+function initNavHighlight() {
+  const links = document.querySelectorAll("nav a");
+  const sections = [...links].map(l => document.querySelector(l.getAttribute("href")));
+  window.addEventListener("scroll", () => {
+    let current = "";
+    sections.forEach(s => {
+      if (s && s.getBoundingClientRect().top <= 100) current = s.id;
+    });
+    links.forEach(l => {
+      l.classList.toggle("active", l.getAttribute("href") === "#" + current);
+    });
+  });
+}
+
+function initFooterYear() {
+  document.getElementById("year").textContent = new Date().getFullYear();
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  renderProjects();
+  renderTimeline("experience-timeline", EXPERIENCE);
+  renderTimeline("education-timeline", EDUCATION);
+  initNavHighlight();
+  initFooterYear();
+});
