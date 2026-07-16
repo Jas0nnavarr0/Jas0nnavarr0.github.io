@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title id="page-title">Project — Jason T. Navarro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+<div class="progress-rail" id="progress-rail"></div>
+
+<header>
+  <div class="nav container">
+    <div class="brand"><a href="../index.html">JASON NAVARRO</a></div>
+    <nav>
+      <a href="../index.html">Home</a>
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#projects">Projects</a>
+      <a href="../index.html#experience">Experience</a>
+      <a href="../index.html#education">Education</a>
+      <a href="../index.html#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- DETAIL HERO -->
+<section class="detail-hero container">
+  <a href="../index.html#projects" class="back-link load-in d1">&larr; Back to projects</a>
+  <h1 class="load-in d2" id="detail-title">Loading&hellip;</h1>
+  <p class="subtitle load-in d3" id="detail-problem" style="max-width:680px;"></p>
+  <div class="detail-meta-row load-in d4" id="detail-meta"></div>
+</section>
+
+<!-- DETAIL BODY -->
+<section class="detail-body container">
+
+  <div class="detail-block reveal">
+    <h2>Overview</h2>
+    <p id="detail-overview"></p>
+  </div>
+
+  <div class="detail-block reveal">
+    <h2>The challenge</h2>
+    <p id="detail-challenge"></p>
+  </div>
+
+  <div class="detail-block reveal">
+    <h2>Approach</h2>
+    <ul id="detail-approach"></ul>
+  </div>
+
+  <div class="detail-block reveal">
+    <h2>Outcome</h2>
+    <p id="detail-outcome"></p>
+  </div>
+
+  <div class="detail-block reveal">
+    <h2>What I'd carry forward</h2>
+    <p id="detail-learned"></p>
+  </div>
+
+  <div class="gallery-placeholder reveal" id="detail-gallery"></div>
+
+  <div class="detail-block reveal" id="detail-link-wrap" style="display:none;">
+    <a href="#" id="detail-link" target="_blank" rel="noopener" class="btn small primary"></a>
+  </div>
+
+</section>
+
+<!-- PREV / NEXT NAV -->
+<div class="container">
+  <div class="detail-nav">
+    <a href="#" id="nav-prev">&larr; Previous</a>
+    <a href="#" id="nav-next">Next &rarr;</a>
+  </div>
+</div>
+
+<footer>
+  <span id="year"></span> &middot; Jason T. Navarro &middot; San Jose, CA
+</footer>
+
+<!-- data.js must load before script.js and project.js -->
+<script src="../data.js"></script>
+<script src="../script.js"></script>
+<script src="project.js"></script>
+
+</body>
+</html>
