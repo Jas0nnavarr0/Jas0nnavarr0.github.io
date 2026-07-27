@@ -4,7 +4,198 @@
   <meta charset="UTF-8">
   <title>Jason T. Navarro — Tech Sales</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ============================================
+       TOKENS
+    ============================================ */
+    :root {
+      --ink:        #15171c;
+      --panel:      #1c1f27;
+      --panel-line: #30353f;
+      --paper:      #eceae4;
+      --paper-dim:  #9a9690;
+      --signal:     #5b8def;
+      --signal-dim: #2e3d57;
+      --font-display: "Space Grotesk", "Arial Narrow", sans-serif;
+      --font-body:    "IBM Plex Sans", "Segoe UI", sans-serif;
+      --font-mono:    "IBM Plex Mono", monospace;
+      --maxw:   980px;
+      --radius: 10px;
+      --ease:   cubic-bezier(.16,.84,.32,1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--ink);
+      color: var(--paper);
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    a { color: var(--signal); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+    /* PROGRESS RAIL */
+    .progress-rail {
+      position: fixed; top: 0; left: 0;
+      height: 3px; width: 0%;
+      background: var(--signal);
+      z-index: 200;
+      transition: width .1s linear;
+    }
+
+    /* NAV */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(21,23,28,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--panel-line);
+    }
+    .nav { height: 64px; display: flex; align-items: center; justify-content: space-between; }
+    .brand { font-family: var(--font-mono); font-weight: 600; font-size: .85rem; letter-spacing: .12em; color: var(--paper); }
+    nav a {
+      margin-left: 1.2rem; color: var(--paper-dim); font-size: .88rem;
+      padding-bottom: 4px; border-bottom: 2px solid transparent;
+      transition: color .2s, border-color .2s;
+    }
+    nav a.active, nav a:hover { color: var(--paper); border-bottom-color: var(--signal); text-decoration: none; }
+
+    /* HERO */
+    .hero { min-height: 92vh; display: flex; align-items: center; border-bottom: 1px solid var(--panel-line); }
+    .hero-inner { max-width: 720px; }
+    .load-in { opacity: 0; transform: translateY(18px); animation: loadIn .7s var(--ease) forwards; }
+    .d1 { animation-delay: .05s; } .d2 { animation-delay: .18s; }
+    .d3 { animation-delay: .32s; } .d4 { animation-delay: .46s; }
+    @keyframes loadIn { to { opacity: 1; transform: translateY(0); } }
+    .eyebrow { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .18em; color: var(--signal); margin-bottom: 1rem; }
+    .hero h1 {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: clamp(3rem, 8vw, 5.5rem); line-height: 1.02;
+      letter-spacing: -.02em; margin-bottom: 1.5rem;
+    }
+    .subtitle { font-size: 1.1rem; color: var(--paper-dim); max-width: 540px; margin-bottom: 2rem; }
+    .hero-buttons { display: flex; gap: .75rem; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--font-mono); font-size: .85rem; padding: .75rem 1.3rem;
+      border-radius: 6px; border: 1px solid var(--panel-line); color: var(--paper);
+      display: inline-block; transition: border-color .2s, transform .2s, background .2s;
+    }
+    .btn:hover { border-color: var(--signal); text-decoration: none; transform: translateY(-2px); }
+    .btn.primary { background: var(--signal); color: var(--ink); border: none; font-weight: 600; }
+    .btn.primary:hover { background: #74a0f2; }
+
+    /* SECTIONS */
+    .section { padding: 88px 0; border-bottom: 1px solid var(--panel-line); }
+    .section-label { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .14em; color: var(--signal); margin-bottom: .6rem; }
+    .section h2 {
+      font-family: var(--font-display); font-weight: 600;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); margin-bottom: 2.5rem; letter-spacing: -.01em;
+    }
+    .section-hint { font-family: var(--font-mono); font-size: .78rem; color: var(--paper-dim); margin-bottom: 1.5rem; margin-top: -1.8rem; }
+
+    /* SCROLL REVEAL — visible by default, animated when JS runs */
+    .reveal { opacity: 1; transform: translateY(0); transition: opacity .6s var(--ease), transform .6s var(--ease); }
+    .js-ready .reveal { opacity: 0; transform: translateY(24px); }
+    .js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2.5rem; margin-bottom: 2rem; }
+    .about-text p { color: var(--paper-dim); margin-bottom: 1rem; }
+    .about-stats { display: flex; flex-direction: column; gap: 1.4rem; border-left: 1px solid var(--panel-line); padding-left: 1.5rem; }
+    .stat-num { font-family: var(--font-display); font-size: 2.2rem; font-weight: 600; color: var(--signal); display: block; }
+    .stat-label { font-size: .85rem; color: var(--paper-dim); }
+    .tags { margin-top: 1.5rem; }
+    .tags span {
+      display: inline-block; font-family: var(--font-mono); font-size: .78rem;
+      background: var(--signal-dim); color: var(--paper); border: 1px solid var(--panel-line);
+      padding: .4rem .7rem; border-radius: 999px; margin: .25rem .3rem .25rem 0;
+      transition: transform .15s, border-color .15s; cursor: default;
+    }
+    .tags span:hover { transform: translateY(-2px); border-color: var(--signal); }
+
+    /* PROJECTS — page view system */
+    #projects-list, #project-detail { }
+    .ledger-item {
+      border-top: 1px solid var(--panel-line); padding: 1.8rem 0;
+      display: grid; grid-template-columns: 1fr 2.2fr; gap: 2rem;
+      cursor: pointer; transition: background .25s, padding-left .25s;
+    }
+    .ledger-item:last-child { border-bottom: 1px solid var(--panel-line); }
+    .ledger-item:hover { background: rgba(91,141,239,0.05); padding-left: .6rem; }
+    .ledger-left h3 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin-bottom: .4rem; transition: color .2s; }
+    .ledger-item:hover .ledger-left h3 { color: var(--signal); }
+    .ledger-meta { font-family: var(--font-mono); font-size: .78rem; color: var(--paper-dim); }
+    .ledger-right .problem { font-size: .95rem; margin-bottom: .6rem; }
+    .ledger-right .problem .label { font-family: var(--font-mono); font-size: .7rem; letter-spacing: .08em; color: var(--signal); margin-right: .4rem; }
+    .ledger-right p { color: var(--paper-dim); }
+    .ledger-right .stack { margin-top: .8rem; }
+    .ledger-right .stack span {
+      font-family: var(--font-mono); font-size: .72rem; color: var(--paper-dim);
+      border: 1px solid var(--panel-line); padding: .25rem .5rem; border-radius: 4px;
+      margin-right: .35rem; display: inline-block; margin-bottom: .3rem;
+    }
+    .view-link { font-family: var(--font-mono); font-size: .8rem; margin-top: .6rem; display: inline-flex; align-items: center; gap: .3rem; color: var(--signal); }
+
+    /* PROJECT DETAIL */
+    #project-detail { display: none; }
+    .back-link {
+      font-family: var(--font-mono); font-size: .82rem; color: var(--paper-dim);
+      display: inline-flex; align-items: center; gap: .4rem; margin-bottom: 2rem;
+      cursor: pointer; transition: color .2s; border: none; background: none; padding: 0;
+    }
+    .back-link:hover { color: var(--signal); }
+    .detail-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(2rem,5vw,3.2rem); letter-spacing: -.02em; margin-bottom: 1rem; }
+    .detail-meta-row { display: flex; gap: 2rem; flex-wrap: wrap; margin: 1.5rem 0 2.5rem; }
+    .detail-meta-block { font-family: var(--font-mono); font-size: .78rem; }
+    .detail-meta-block .k { color: var(--paper-dim); display: block; letter-spacing: .08em; margin-bottom: .25rem; }
+    .detail-meta-block .v { color: var(--paper); }
+    .detail-block { margin-bottom: 2.5rem; max-width: 760px; }
+    .detail-block h3 { font-family: var(--font-display); font-size: 1.2rem; color: var(--signal); margin-bottom: .8rem; }
+    .detail-block p { color: var(--paper-dim); margin-bottom: .6rem; }
+    .detail-block ul { list-style: none; color: var(--paper-dim); }
+    .detail-block li { position: relative; padding-left: 1.2rem; margin-bottom: .7rem; }
+    .detail-block li::before { content: "\2192"; position: absolute; left: 0; color: var(--signal); }
+    .detail-nav-btns { display: flex; justify-content: space-between; padding: 2rem 0; border-top: 1px solid var(--panel-line); margin-top: 1rem; }
+    .detail-nav-btns button { font-family: var(--font-mono); font-size: .85rem; background: none; border: none; color: var(--signal); cursor: pointer; padding: 0; }
+    .detail-nav-btns button:hover { text-decoration: underline; }
+
+    /* TIMELINE */
+    .timeline-item {
+      border-top: 1px solid var(--panel-line); padding: 1.6rem 0;
+      display: grid; grid-template-columns: 1fr 2.2fr; gap: 2rem;
+    }
+    .timeline-item:last-child { border-bottom: 1px solid var(--panel-line); }
+    .timeline-left h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; }
+    .timeline-meta { font-family: var(--font-mono); font-size: .78rem; color: var(--signal); margin-top: .3rem; }
+    .timeline-right ul { list-style: none; color: var(--paper-dim); }
+    .timeline-right li { position: relative; padding-left: 1.1rem; margin-bottom: .5rem; font-size: .95rem; }
+    .timeline-right li::before { content: "\2014"; position: absolute; left: 0; color: var(--paper-dim); }
+
+    /* CONTACT */
+    .contact-card { border: 1px solid var(--panel-line); border-radius: var(--radius); padding: 2rem; background: var(--panel); }
+    .contact-card p { color: var(--paper-dim); margin-bottom: 1.2rem; }
+    .contact-row { display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: .8rem; font-family: var(--font-mono); font-size: .95rem; }
+
+    /* FOOTER */
+    footer { text-align: center; padding: 2.5rem 0; font-family: var(--font-mono); font-size: .78rem; color: var(--paper-dim); }
+
+    /* RESPONSIVE */
+    @media (max-width: 720px) {
+      nav a { margin-left: .7rem; font-size: .8rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-stats { border-left: none; border-top: 1px solid var(--panel-line); padding-left: 0; padding-top: 1.5rem; flex-direction: row; justify-content: space-between; }
+      .ledger-item, .timeline-item { grid-template-columns: 1fr; gap: .8rem; }
+      .ledger-item:hover { padding-left: 0; }
+      .detail-meta-row { gap: 1.2rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .load-in { animation: none; opacity: 1; transform: none; }
+      .reveal { transition: none; opacity: 1; transform: none; }
+    }
+    a:focus-visible, .btn:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  </style>
 </head>
 <body>
 
@@ -12,9 +203,9 @@
 
 <header>
   <div class="nav container">
-    <div class="brand"><a href="index.html">JASON NAVARRO</a></div>
+    <span class="brand">JASON NAVARRO</span>
     <nav>
-      <a href="#home" class="active">Home</a>
+      <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#projects">Projects</a>
       <a href="#experience">Experience</a>
@@ -24,7 +215,7 @@
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HOME -->
 <section id="home" class="hero">
   <div class="container hero-inner">
     <p class="eyebrow load-in d1">TECH SALES &middot; SOFTWARE ENGINEERING STUDENT</p>
@@ -73,7 +264,29 @@
   <p class="section-label reveal">02 &mdash; Projects</p>
   <h2 class="reveal">What I've built, and why</h2>
   <p class="section-hint reveal">Click any project for the full case study &rarr;</p>
-  <div id="project-ledger"></div>
+
+  <!-- Project list view -->
+  <div id="projects-list"></div>
+
+  <!-- Project detail view (hidden until a project is clicked) -->
+  <div id="project-detail">
+    <button class="back-link" id="back-btn">&larr; Back to projects</button>
+    <h2 class="detail-title" id="d-title"></h2>
+    <p class="subtitle" id="d-problem" style="max-width:680px;"></p>
+    <div class="detail-meta-row" id="d-meta"></div>
+    <div class="detail-block"><h3>Overview</h3><p id="d-overview"></p></div>
+    <div class="detail-block"><h3>The challenge</h3><p id="d-challenge"></p></div>
+    <div class="detail-block"><h3>Approach</h3><ul id="d-approach"></ul></div>
+    <div class="detail-block"><h3>Outcome</h3><p id="d-outcome"></p></div>
+    <div class="detail-block"><h3>What I'd carry forward</h3><p id="d-learned"></p></div>
+    <div class="detail-block" id="d-link-wrap" style="display:none;">
+      <a href="#" id="d-link" target="_blank" rel="noopener" class="btn primary"></a>
+    </div>
+    <div class="detail-nav-btns">
+      <button id="btn-prev">&larr; Previous</button>
+      <button id="btn-next">Next &rarr;</button>
+    </div>
+  </div>
 </section>
 
 <!-- EXPERIENCE -->
@@ -101,7 +314,7 @@
       <a href="tel:+16694001300">(669) 400-1300</a>
     </div>
     <div class="contact-row">
-      <a href="https://linkedin.com" target="_blank" rel="noopener">LinkedIn &rarr;</a>
+      <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noopener">LinkedIn &rarr;</a>
       <a href="https://github.com/Jas0nnavarr0" target="_blank" rel="noopener">GitHub &rarr;</a>
     </div>
   </div>
@@ -111,8 +324,319 @@
   <span id="year"></span> &middot; Jason T. Navarro &middot; San Jose, CA
 </footer>
 
-<script src="data.js"></script>
-<script src="script.js"></script>
+<script>
+  /* ============================================
+     DATA — edit this section to update content
+  ============================================ */
+  const PROJECTS = [
+    {
+      title: "Movie Rental Database",
+      meta: "Oct \u2013 Dec 2025 \u2014 React + Vite, Spring Boot, MySQL",
+      problem: "Built a full-stack rental platform so users have one place to browse, rent, and review movies.",
+      detail: "React + Vite frontend, Spring Boot backend, MySQL database. Users create accounts, browse a catalog, rent titles, and leave reviews.",
+      stack: ["React", "Vite", "Spring Boot", "MySQL", "Redux", "Axios", "Tailwind CSS"],
+      link: { label: "View on GitHub", url: "#" },
+      role: "Full-stack developer (team project)",
+      timeline: "Oct \u2013 Dec 2025",
+      overview: "A full-stack web application that lets users create accounts, browse a movie catalog, rent titles, and leave reviews \u2014 built to practice a complete client-to-database pipeline.",
+      challenge: "The team needed a frontend that felt responsive and modern while staying decoupled from a Java backend, plus a data model that could handle accounts, rental status, and reviews without getting tangled.",
+      approach: [
+        "Built the frontend in React + Vite using Redux for shared auth/rental state and Tailwind for consistent styling.",
+        "Used Axios to handle all REST calls to the Spring Boot backend, with React Router managing navigation.",
+        "Designed the MySQL schema around three core entities \u2014 users, movies, and rentals \u2014 with reviews tied to a completed rental."
+      ],
+      outcome: "A working end-to-end app covering account creation, browsing, renting, and reviewing \u2014 the full loop a real rental platform needs.",
+      learned: "Agreeing on API contracts early let frontend and backend work run in parallel instead of blocking each other."
+    },
+    {
+      title: "Lost & Found Tracker",
+      meta: "Aug \u2013 Dec 2025 \u2014 Java, Spring Boot, MySQL",
+      problem: "Addressed a real campus pain point: no centralized way for students to recover lost items.",
+      detail: "Translated functional requirements into REST APIs, authentication flows, and database models. Presented architecture to non-technical stakeholders.",
+      stack: ["Java", "Spring Boot", "MySQL", "REST APIs"],
+      link: { label: "View on GitHub", url: "#" },
+      role: "Backend developer & technical liaison",
+      timeline: "Aug \u2013 Dec 2025",
+      overview: "A full-stack campus tool for reporting and recovering lost items, built after noticing how scattered the existing process was \u2014 mostly group chats and bins nobody checked.",
+      challenge: "Different stakeholders described \u2018lost and found\u2019 differently, and the team needed auth and data models that matched how people would actually use it.",
+      approach: [
+        "Turned loosely defined requirements into concrete REST API contracts before writing implementation code.",
+        "Built auth flows so reports could be tied to a real user without making submission feel burdensome.",
+        "Modeled item state as lost \u2192 found \u2192 claimed so data could support search and matching.",
+        "Presented architecture to non-technical stakeholders, translating schema decisions into plain language."
+      ],
+      outcome: "A working system with a clear item-status lifecycle and documentation non-technical stakeholders could follow.",
+      learned: "Presenting technical decisions to a non-technical audience forced clarity in my own thinking \u2014 a skill that maps directly to explaining software to customers."
+    },
+    {
+      title: "Movie Recommendation Generator",
+      meta: "JavaScript, HTML, CSS",
+      problem: "A lightweight tool that recommends movies based on user-selected genres.",
+      detail: "Built with DOM manipulation and event-driven programming to keep the interaction responsive and simple.",
+      stack: ["JavaScript", "HTML", "CSS"],
+      link: null,
+      role: "Solo project",
+      timeline: "Personal project",
+      overview: "A small interactive tool where a user picks genres and gets movie suggestions instantly \u2014 no backend, no build step, just vanilla JavaScript.",
+      challenge: "Keeping the interaction snappy and the code readable without reaching for a framework.",
+      approach: [
+        "Used event-driven programming to respond to genre selections immediately without a page reload.",
+        "Kept state management explicit with no external libraries to stay close to the underlying browser APIs."
+      ],
+      outcome: "A functional instant-feedback tool that demonstrates comfort with vanilla JS fundamentals.",
+      learned: "Working without a framework made clear how much React abstracts away \u2014 useful context when debugging larger projects."
+    },
+    {
+      title: "Personal Portfolio Website",
+      meta: "JavaScript, HTML, CSS",
+      problem: "Designed to be easy to navigate and update as projects and experience grow.",
+      detail: "Built with a focus on accessibility, visual consistency, and clean structure across devices.",
+      stack: ["JavaScript", "HTML", "CSS"],
+      link: null,
+      role: "Solo project",
+      timeline: "Ongoing",
+      overview: "The site you\u2019re on right now \u2014 rebuilt to separate content from structure so it stays easy to update between job applications.",
+      challenge: "Avoiding a generic template feel while keeping the codebase simple enough to maintain solo.",
+      approach: [
+        "Built a consistent \u2018pitch sheet\u2019 visual system that ties projects, experience, and education together.",
+        "Added scroll-triggered reveals and a page-load animation sequence.",
+        "Kept everything in one file so deployment to GitHub Pages is as simple as possible."
+      ],
+      outcome: "A maintainable, distinctive personal site that doubles as a working example of frontend craft.",
+      learned: "Treating my own portfolio like a real project \u2014 with a clear design system \u2014 was a good discipline exercise."
+    },
+    {
+      title: "Autonomous Small Robot",
+      meta: "Aug 2023 \u2013 Dec 2024 \u2014 C, VEX Cortex",
+      problem: "Programmed an autonomous robot to navigate and avoid collisions using onboard sensors.",
+      detail: "Tested, debugged, and iterated on motion algorithms to improve speed and accuracy over multiple build cycles.",
+      stack: ["C", "VEX Cortex", "Sensor Integration", "Motor Control"],
+      link: null,
+      role: "Programmer (team project)",
+      timeline: "Aug 2023 \u2013 Dec 2024",
+      overview: "An autonomous robot on the VEX Cortex platform, programmed to navigate a course and avoid collisions using onboard sensors.",
+      challenge: "Sensor noise and inconsistent motor response meant the same code could behave differently run-to-run.",
+      approach: [
+        "Wrote motion and navigation logic in C, integrating sensor input directly into movement decisions.",
+        "Ran repeated test cycles to isolate whether issues came from sensor calibration, motor control, or logic errors.",
+        "Iterated on collision-detection thresholds to balance reaction speed against false positives."
+      ],
+      outcome: "A robot that navigated and avoided obstacles autonomously with meaningfully improved accuracy after iterative testing.",
+      learned: "First real exposure to the gap between code that\u2019s logically correct and a system that behaves reliably in the physical world."
+    }
+  ];
+
+  const EXPERIENCE = [
+    {
+      title: "Customer Service Associate",
+      org: "Home Depot \u2014 Gilroy, CA",
+      dates: "May 2025 \u2013 Present",
+      points: [
+        "Conduct consultative conversations with 50+ customers per shift to identify needs and recommend solutions \u2014 the same motion as a sales discovery call.",
+        "Communicate in English and Spanish to serve a broader customer base and resolve issues faster.",
+        "Resolve POS and checkout issues under time pressure, keeping operations smooth during peak traffic.",
+        "Coordinate with inventory and floor teams to track down high-demand items for customers."
+      ]
+    },
+    {
+      title: "Starter, Cart Barn & Grounds",
+      org: "Eagle Ridge Golf Course \u2014 Gilroy, CA",
+      dates: "June 2023 \u2013 Jan 2025",
+      points: [
+        "Managed cart operations and logistics for 50+ daily players.",
+        "Coordinated tee time scheduling and supported Pro Shop staff with customer requests.",
+        "Maintained equipment and facility standards during peak hours."
+      ]
+    }
+  ];
+
+  const EDUCATION = [
+    {
+      title: "B.S. Software Engineering",
+      org: "San Jos\u00e9 State University, San Jos\u00e9, CA",
+      dates: "Expected May 2027",
+      points: ["Relevant coursework: Data Structures & Algorithms, Programming Methodology, Discrete Mathematics, Linear Algebra, Calculus I\u2013III, Physics I\u2013II."]
+    },
+    {
+      title: "Amazon Junior Software Developer Professional Certificate",
+      org: "Issued via Coursera",
+      dates: "Fall 2025",
+      points: ["Full-stack Java development with Spring Boot and SQL, SDLC, OOP, responsive web design, and generative AI tools."]
+    },
+    {
+      title: "High School Diploma",
+      org: "Christopher High School, Gilroy, CA",
+      dates: "June 2023",
+      points: ["Honors: Principal\u2019s List (2021), Honor Roll (2019\u20132020, 2022)."]
+    }
+  ];
+
+  /* ============================================
+     RENDER FUNCTIONS
+  ============================================ */
+  let currentProjectIndex = -1;
+
+  function showProjectList() {
+    document.getElementById("projects-list").style.display = "block";
+    document.getElementById("project-detail").style.display = "none";
+  }
+
+  function showProjectDetail(index) {
+    currentProjectIndex = index;
+    const p = PROJECTS[index];
+
+    document.getElementById("d-title").textContent    = p.title;
+    document.getElementById("d-problem").textContent  = p.problem;
+    document.getElementById("d-overview").textContent = p.overview;
+    document.getElementById("d-challenge").textContent = p.challenge;
+    document.getElementById("d-approach").innerHTML   = p.approach.map(a => `<li>${a}</li>`).join("");
+    document.getElementById("d-outcome").textContent  = p.outcome;
+    document.getElementById("d-learned").textContent  = p.learned;
+
+    document.getElementById("d-meta").innerHTML = `
+      <div class="detail-meta-block"><span class="k">ROLE</span><span class="v">${p.role}</span></div>
+      <div class="detail-meta-block"><span class="k">TIMELINE</span><span class="v">${p.timeline}</span></div>
+      <div class="detail-meta-block"><span class="k">STACK</span><span class="v">${p.stack.join(", ")}</span></div>
+    `;
+
+    if (p.link) {
+      document.getElementById("d-link").href = p.link.url;
+      document.getElementById("d-link").textContent = p.link.label;
+      document.getElementById("d-link-wrap").style.display = "block";
+    } else {
+      document.getElementById("d-link-wrap").style.display = "none";
+    }
+
+    const prev = PROJECTS[(index - 1 + PROJECTS.length) % PROJECTS.length];
+    const next = PROJECTS[(index + 1) % PROJECTS.length];
+    document.getElementById("btn-prev").textContent = `\u2190 ${prev.title}`;
+    document.getElementById("btn-next").textContent = `${next.title} \u2192`;
+
+    document.getElementById("projects-list").style.display = "none";
+    document.getElementById("project-detail").style.display = "block";
+
+    // Scroll to top of projects section
+    document.getElementById("projects").scrollIntoView({ behavior: "smooth" });
+  }
+
+  function renderProjects() {
+    const wrap = document.getElementById("projects-list");
+    wrap.innerHTML = PROJECTS.map((p, i) => `
+      <div class="ledger-item reveal" data-index="${i}" tabindex="0" role="button" aria-label="View case study: ${p.title}">
+        <div class="ledger-left">
+          <h3>${p.title}</h3>
+          <p class="ledger-meta">${p.meta}</p>
+        </div>
+        <div class="ledger-right">
+          <p class="problem"><span class="label">PROBLEM &rsaquo;</span>${p.problem}</p>
+          <p>${p.detail}</p>
+          <div class="stack">${p.stack.map(s => `<span>${s}</span>`).join("")}</div>
+          <span class="view-link">View case study &rarr;</span>
+        </div>
+      </div>
+    `).join("");
+
+    wrap.querySelectorAll(".ledger-item").forEach(item => {
+      const go = () => showProjectDetail(parseInt(item.dataset.index));
+      item.addEventListener("click", go);
+      item.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } });
+    });
+  }
+
+  function renderTimeline(id, items) {
+    document.getElementById(id).innerHTML = items.map(item => `
+      <div class="timeline-item reveal">
+        <div class="timeline-left">
+          <h3>${item.title}</h3>
+          <p class="ledger-meta">${item.org}</p>
+          <p class="timeline-meta">${item.dates}</p>
+        </div>
+        <div class="timeline-right">
+          <ul>${item.points.map(pt => `<li>${pt}</li>`).join("")}</ul>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  /* ============================================
+     MOTION & INTERACTION
+  ============================================ */
+  function initScrollReveal() {
+    // Only hide elements for animation if IntersectionObserver is supported
+    if (!("IntersectionObserver" in window)) return;
+    document.body.classList.add("js-ready");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("is-visible"); observer.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+    function observe() { document.querySelectorAll(".reveal:not(.is-visible)").forEach(el => observer.observe(el)); }
+    observe();
+    setTimeout(observe, 150);
+  }
+
+  function initProgressRail() {
+    const rail = document.getElementById("progress-rail");
+    window.addEventListener("scroll", () => {
+      const h = document.documentElement;
+      rail.style.width = (h.scrollTop / (h.scrollHeight - h.clientHeight) * 100) + "%";
+    }, { passive: true });
+  }
+
+  function initNavHighlight() {
+    const links = document.querySelectorAll("nav a[href^='#']");
+    const sections = [...links].map(l => document.querySelector(l.getAttribute("href"))).filter(Boolean);
+    window.addEventListener("scroll", () => {
+      let current = "";
+      sections.forEach(s => { if (s.getBoundingClientRect().top <= 100) current = s.id; });
+      links.forEach(l => l.classList.toggle("active", l.getAttribute("href") === "#" + current));
+    }, { passive: true });
+  }
+
+  function initCounters() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const el = e.target;
+        const target = parseInt(el.dataset.count);
+        const suffix = el.dataset.suffix || "";
+        const start = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - start) / 900, 1);
+          el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll(".stat-num[data-count]").forEach(c => observer.observe(c));
+  }
+
+  /* ============================================
+     BOOT
+  ============================================ */
+  document.addEventListener("DOMContentLoaded", () => {
+    renderProjects();
+    renderTimeline("experience-timeline", EXPERIENCE);
+    renderTimeline("education-timeline", EDUCATION);
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    initScrollReveal();
+    initProgressRail();
+    initNavHighlight();
+    initCounters();
+
+    document.getElementById("back-btn").addEventListener("click", () => {
+      showProjectList();
+      setTimeout(initScrollReveal, 50);
+    });
+    document.getElementById("btn-prev").addEventListener("click", () => {
+      showProjectDetail((currentProjectIndex - 1 + PROJECTS.length) % PROJECTS.length);
+    });
+    document.getElementById("btn-next").addEventListener("click", () => {
+      showProjectDetail((currentProjectIndex + 1) % PROJECTS.length);
+    });
+  });
+</script>
 
 </body>
 </html>
